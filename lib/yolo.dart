@@ -1,4 +1,4 @@
-// Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+// Cellsay 🚀 AGPL-3.0 License - https://cellsay.com/license
 
 import 'package:flutter/services.dart';
 import 'package:ultralytics_yolo/models/yolo_task.dart';
@@ -14,8 +14,7 @@ export 'models/yolo_result.dart';
 export 'yolo_instance_manager.dart';
 
 /// YOLO (You Only Look Once) is a class that provides machine learning inference
-/// capabilities for object detection, segmentation, classification, pose estimation,
-/// and oriented bounding box detection.
+/// capabilities for object detection.
 ///
 /// This class handles the initialization of YOLO models and provides methods
 /// to perform inference on images.
@@ -48,7 +47,7 @@ class YOLO {
   /// The 'internal://' prefix will be resolved to the app's internal storage directory.
   final String modelPath;
 
-  /// The type of task this YOLO model will perform (detection, segmentation, etc.)
+  /// The type of task this YOLO model will perform. Only detection is supported.
   final YOLOTask task;
 
   /// Whether to use GPU acceleration for inference.
@@ -81,6 +80,9 @@ class YOLO {
     bool useMultiInstance = false,
     this.classifierOptions,
   }) {
+    if (task != YOLOTask.detect) {
+      throw ArgumentError.value(task, 'task', 'Cellsay only supports object detection models.');
+    }
     if (useMultiInstance) {
       _instanceId = 'yolo_${DateTime.now().millisecondsSinceEpoch}_$hashCode';
 
@@ -130,6 +132,9 @@ class YOLO {
   /// throws [StateError] if the view is not initialized
   /// throws [ModelLoadingException] if the model switch fails
   Future<void> switchModel(String newModelPath, YOLOTask newTask) async {
+    if (newTask != YOLOTask.detect) {
+      throw ArgumentError.value(newTask, 'newTask', 'Cellsay only supports object detection models.');
+    }
     await _modelManager.switchModel(newModelPath, newTask);
   }
 
@@ -162,34 +167,8 @@ class YOLO {
   /// The returned map contains:
   /// - 'boxes': List of detected objects with bounding box coordinates
   /// - 'detections': List of detections in YOLOResult-compatible format
-  /// - Task-specific data (keypoints for pose, mask for segmentation, etc.)
   ///
   /// The model must be loaded with [loadModel] before calling this method.
-  ///
-  /// Example:
-  /// ```dart
-  /// // Basic detection usage
-  /// final results = await yolo.predict(imageBytes);
-  /// final boxes = results['boxes'] as List<dynamic>;
-  /// for (var box in boxes) {
-  ///   print('Class: ${box['class']}, Confidence: ${box['confidence']}');
-  /// }
-  ///
-  /// // Pose estimation with YOLOResult
-  /// final results = await yolo.predict(imageBytes);
-  /// final detections = results['detections'] as List<dynamic>;
-  /// for (var detection in detections) {
-  ///   final result = YOLOResult.fromMap(detection);
-  ///   if (result.keypoints != null) {
-  ///     print('Found ${result.keypoints!.length} keypoints');
-  ///     for (int i = 0; i < result.keypoints!.length; i++) {
-  ///       final kp = result.keypoints![i];
-  ///       final conf = result.keypointConfidences![i];
-  ///       print('Keypoint $i: (${kp.x}, ${kp.y}) confidence: $conf');
-  ///     }
-  ///   }
-  /// }
-  /// ```
   ///
   /// [imageBytes] The raw image data as a Uint8List
   /// [confidenceThreshold] Optional confidence threshold (0.0-1.0). Defaults to 0.25 if not specified.
@@ -197,7 +176,6 @@ class YOLO {
   /// returns A map containing:
   ///   - 'boxes': List of bounding boxes
   ///   - 'detections': List of YOLOResult-compatible detection maps
-  ///   - 'keypoints': (pose only) Raw keypoints data from platform
   /// throws [ModelNotLoadedException] if the model has not been loaded
   /// throws [InferenceException] if there's an error during inference
   Future<Map<String, dynamic>> predict(
@@ -272,37 +250,9 @@ class YOLO {
     }
   }
 
-  /// Creates a YOLO instance with classifier options for custom preprocessing
+  /// Creates a YOLO instance with additional preprocessing options for detection.
   ///
-  /// This constructor is specifically designed for classification models that
-  /// need custom preprocessing, such as 1-channel grayscale models.
-  ///
-  /// Example:
-  /// ```dart
-  /// final yolo = YOLO.withClassifierOptions(
-  ///   modelPath: 'assets/handwriting_model.tflite',
-  ///   task: YOLOTask.classify,
-  ///   classifierOptions: {
-  ///     'enable1ChannelSupport': true,
-  ///     'enableColorInversion': true,
-  ///     'enableMaxNormalization': true,
-  ///     'expectedChannels': 1,
-  ///     'expectedClasses': 12,
-  ///   },
-  /// );
-  /// ```
-  ///
-  /// if need custom Normalization:
-  /// ```dart
-  ///   final grayscaleOptions = {
-  ///   'enableMaxNormalization': false,
-  ///   'inputMean': 127.5,
-  ///   'inputStd' : 127.5,
-  ///   'expectedChannels': 1,
-  ///   // labels·expectedClasses (if needed)
-  /// };
-  ///```
-
+  /// This factory is kept for backward compatibility and enforces the detect task.
   static YOLO withClassifierOptions({
     required String modelPath,
     required YOLOTask task,

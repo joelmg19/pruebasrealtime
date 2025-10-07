@@ -1,4 +1,4 @@
-// Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+// Cellsay 🚀 AGPL-3.0 License - https://cellsay.com/license
 
 import 'dart:async';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
@@ -68,6 +68,13 @@ class _YOLOViewState extends State<YOLOView> {
   @override
   void initState() {
     super.initState();
+    if (widget.task != YOLOTask.detect) {
+      throw ArgumentError.value(
+        widget.task,
+        'task',
+        'Cellsay only supports object detection tasks.',
+      );
+    }
     _setupController();
     _setupChannels();
     _subscribeToResults();
