@@ -276,3 +276,182 @@ class _SliderDescriptionCard extends StatelessWidget {
     );
   }
 }
+
+class _AccessibleStatusPanel extends StatelessWidget {
+  const _AccessibleStatusPanel({
+    required this.controller,
+    required this.isLandscape,
+  });
+
+  final CameraInferenceController controller;
+  final bool isLandscape;
+
+  String? _sliderDescription() {
+    switch (controller.activeSlider) {
+      case SliderType.confidence:
+        return 'Confidence threshold ${controller.confidenceThreshold.toStringAsFixed(2)}';
+      case SliderType.iou:
+        return 'IoU threshold ${controller.iouThreshold.toStringAsFixed(2)}';
+      case SliderType.numItems:
+        return 'Maximum items ${controller.numItemsThreshold}';
+      case SliderType.none:
+        return null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final sliderDescription = _sliderDescription();
+    final padding = isLandscape
+        ? const EdgeInsets.all(16)
+        : const EdgeInsets.all(20);
+
+    return Positioned(
+      top: isLandscape ? 12 : 24,
+      left: 16,
+      right: 16,
+      child: SafeArea(
+        child: Semantics(
+          container: true,
+          label: 'Cellsay detection status',
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return Align(
+                alignment: Alignment.topCenter,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 640),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.72),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Padding(
+                      padding: padding,
+                      child: Wrap(
+                        spacing: 24,
+                        runSpacing: 16,
+                        alignment: WrapAlignment.start,
+                        children: [
+                          _InfoTile(
+                            label: 'Detections',
+                            value: controller.detectionCount.toString(),
+                            semanticLabel:
+                                'Detected objects: ${controller.detectionCount}',
+                          ),
+                          _InfoTile(
+                            label: 'Frames per second',
+                            value: controller.currentFps.toStringAsFixed(1),
+                            semanticLabel:
+                                'Frames per second: ${controller.currentFps.toStringAsFixed(1)}',
+                          ),
+                          if (sliderDescription != null)
+                            _SliderDescriptionCard(
+                              description: sliderDescription,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _InfoTile extends StatelessWidget {
+  const _InfoTile({
+    required this.label,
+    required this.value,
+    required this.semanticLabel,
+  });
+
+  final String label;
+  final String value;
+  final String semanticLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final labelStyle =
+        theme.textTheme.labelMedium?.copyWith(
+          color: Colors.white70,
+          letterSpacing: 0.6,
+        ) ??
+        const TextStyle(
+          color: Colors.white70,
+          letterSpacing: 0.6,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+        );
+
+    final valueStyle =
+        theme.textTheme.displaySmall?.copyWith(
+          color: Colors.white,
+          fontWeight: FontWeight.w800,
+          fontSize: 32,
+        ) ??
+        const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w800,
+          fontSize: 32,
+        );
+
+    return Semantics(
+      label: semanticLabel,
+      child: SizedBox(
+        width: 200,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(label.toUpperCase(), style: labelStyle),
+            const SizedBox(height: 6),
+            FittedBox(
+              alignment: Alignment.centerLeft,
+              fit: BoxFit.scaleDown,
+              child: Text(value, style: valueStyle),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SliderDescriptionCard extends StatelessWidget {
+  const _SliderDescriptionCard({required this.description});
+
+  final String description;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textStyle =
+        theme.textTheme.bodyLarge?.copyWith(
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+          fontSize: 18,
+        ) ??
+        const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+          fontSize: 18,
+        );
+
+    return Semantics(
+      label: 'Active slider: $description',
+      child: Container(
+        width: 220,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.18),
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Text(description.toUpperCase(), style: textStyle),
+      ),
+    );
+  }
+}

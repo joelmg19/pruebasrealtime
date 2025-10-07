@@ -125,9 +125,6 @@ class YOLOStreamingConfig {
       includeClassifications = false,
       includeProcessingTimeMs = true,
       includeFps = true,
-      includeMasks = false,
-      includePoses = false,
-      includeOBB = false,
       includeOriginalImage = false,
       maxFPS = null,
       throttleInterval = null,
@@ -140,12 +137,8 @@ class YOLOStreamingConfig {
   /// performance metrics which default to true).
   const YOLOStreamingConfig.custom({
     bool? includeDetections,
-    bool? includeClassifications,
     bool? includeProcessingTimeMs,
     bool? includeFps,
-    bool? includeMasks,
-    bool? includePoses,
-    bool? includeOBB,
     bool? includeOriginalImage,
     this.maxFPS,
     this.throttleInterval,
