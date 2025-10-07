@@ -33,8 +33,10 @@ class CameraInferenceContent extends StatelessWidget {
       );
     } else {
       return const Center(
-        child: Text('Cellsay model not loaded',
-            style: TextStyle(color: Colors.white)),
+        child: Text(
+          'Cellsay model not loaded',
+          style: TextStyle(color: Colors.white),
+        ),
       );
     }
   }

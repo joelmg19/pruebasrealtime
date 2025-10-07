@@ -81,7 +81,11 @@ class YOLO {
     this.classifierOptions,
   }) {
     if (task != YOLOTask.detect) {
-      throw ArgumentError.value(task, 'task', 'Cellsay only supports object detection models.');
+      throw ArgumentError.value(
+        task,
+        'task',
+        'Cellsay only supports object detection models.',
+      );
     }
     if (useMultiInstance) {
       _instanceId = 'yolo_${DateTime.now().millisecondsSinceEpoch}_$hashCode';
@@ -133,7 +137,11 @@ class YOLO {
   /// throws [ModelLoadingException] if the model switch fails
   Future<void> switchModel(String newModelPath, YOLOTask newTask) async {
     if (newTask != YOLOTask.detect) {
-      throw ArgumentError.value(newTask, 'newTask', 'Cellsay only supports object detection models.');
+      throw ArgumentError.value(
+        newTask,
+        'newTask',
+        'Cellsay only supports object detection models.',
+      );
     }
     await _modelManager.switchModel(newModelPath, newTask);
   }

@@ -26,9 +26,9 @@ class ModelManager {
       'https://github.com/ultralytics/yolo-flutter-app/releases/download/v0.0.0';
 
   static String get _modelDownloadBaseUrl => const String.fromEnvironment(
-        'CELLSAY_MODEL_BASE_URL',
-        defaultValue: _defaultModelDownloadBaseUrl,
-      );
+    'CELLSAY_MODEL_BASE_URL',
+    defaultValue: _defaultModelDownloadBaseUrl,
+  );
 
   static final MethodChannel _channel =
       ChannelConfig.createSingleImageChannel();
@@ -49,8 +49,8 @@ class ModelManager {
   Future<String?> getModelPath(ModelType modelType) async => Platform.isIOS
       ? _getIOSModelPath(modelType)
       : Platform.isAndroid
-          ? _getAndroidModelPath(modelType)
-          : null;
+      ? _getAndroidModelPath(modelType)
+      : null;
 
   /// Gets the iOS model path (.mlpackage format).
   Future<String?> _getIOSModelPath(ModelType modelType) async {

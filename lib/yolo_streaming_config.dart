@@ -144,12 +144,12 @@ class YOLOStreamingConfig {
     this.throttleInterval,
     this.inferenceFrequency,
     this.skipFrames,
-  })  : includeDetections = includeDetections ?? true,
-        includeClassifications = includeClassifications ?? false,
-        includeProcessingTimeMs = includeProcessingTimeMs ?? true,
-        includeFps = includeFps ?? true,
-        includeMasks = includeMasks ?? false,
-        includePoses = includePoses ?? false,
-        includeOBB = includeOBB ?? false,
-        includeOriginalImage = includeOriginalImage ?? false;
+  }) : includeDetections = includeDetections ?? true,
+       includeClassifications = includeClassifications ?? false,
+       includeProcessingTimeMs = includeProcessingTimeMs ?? true,
+       includeFps = includeFps ?? true,
+       includeMasks = includeMasks ?? false,
+       includePoses = includePoses ?? false,
+       includeOBB = includeOBB ?? false,
+       includeOriginalImage = includeOriginalImage ?? false;
 }
