@@ -16,9 +16,9 @@ class YOLOInference {
     required MethodChannel channel,
     required String instanceId,
     required YOLOTask task,
-  })  : _channel = channel,
-        _instanceId = instanceId,
-        _task = task;
+  }) : _channel = channel,
+       _instanceId = instanceId,
+       _task = task;
 
   Future<Map<String, dynamic>> predict(
     Uint8List imageBytes, {

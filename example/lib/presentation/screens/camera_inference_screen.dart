@@ -88,18 +88,18 @@ class _CameraInferenceScreenState extends State<CameraInferenceScreen> {
   }
 
   void _showError(String title, String message) => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text(title),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
-            ),
-          ],
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(title),
+      content: Text(message),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('OK'),
         ),
-      );
+      ],
+    ),
+  );
 }
 
 class _AccessibleStatusPanel extends StatelessWidget {
@@ -127,7 +127,9 @@ class _AccessibleStatusPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sliderDescription = _sliderDescription();
-    final padding = isLandscape ? const EdgeInsets.all(16) : const EdgeInsets.all(20);
+    final padding = isLandscape
+        ? const EdgeInsets.all(16)
+        : const EdgeInsets.all(20);
 
     return Positioned(
       top: isLandscape ? 12 : 24,
@@ -168,7 +170,9 @@ class _AccessibleStatusPanel extends StatelessWidget {
                                 'Frames per second: ${controller.currentFps.toStringAsFixed(1)}',
                           ),
                           if (sliderDescription != null)
-                            _SliderDescriptionCard(description: sliderDescription),
+                            _SliderDescriptionCard(
+                              description: sliderDescription,
+                            ),
                         ],
                       ),
                     ),
@@ -197,7 +201,8 @@ class _InfoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final labelStyle = theme.textTheme.labelMedium?.copyWith(
+    final labelStyle =
+        theme.textTheme.labelMedium?.copyWith(
           color: Colors.white70,
           letterSpacing: 0.6,
         ) ??
@@ -208,7 +213,8 @@ class _InfoTile extends StatelessWidget {
           fontWeight: FontWeight.w600,
         );
 
-    final valueStyle = theme.textTheme.displaySmall?.copyWith(
+    final valueStyle =
+        theme.textTheme.displaySmall?.copyWith(
           color: Colors.white,
           fontWeight: FontWeight.w800,
           fontSize: 32,
@@ -248,7 +254,8 @@ class _SliderDescriptionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final textStyle = theme.textTheme.bodyLarge?.copyWith(
+    final textStyle =
+        theme.textTheme.bodyLarge?.copyWith(
           color: Colors.white,
           fontWeight: FontWeight.w600,
           fontSize: 18,
@@ -268,10 +275,7 @@ class _SliderDescriptionCard extends StatelessWidget {
           color: Colors.white.withOpacity(0.18),
           borderRadius: BorderRadius.circular(14),
         ),
-        child: Text(
-          description.toUpperCase(),
-          style: textStyle,
-        ),
+        child: Text(description.toUpperCase(), style: textStyle),
       ),
     );
   }

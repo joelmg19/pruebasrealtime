@@ -114,8 +114,8 @@ class YOLOStreamingConfig {
     this.throttleInterval,
     this.inferenceFrequency,
     this.skipFrames,
-  })  : includeDetections = includeDetections ?? true,
-        includeProcessingTimeMs = includeProcessingTimeMs ?? true,
-        includeFps = includeFps ?? true,
-        includeOriginalImage = includeOriginalImage ?? false;
+  }) : includeDetections = includeDetections ?? true,
+       includeProcessingTimeMs = includeProcessingTimeMs ?? true,
+       includeFps = includeFps ?? true,
+       includeOriginalImage = includeOriginalImage ?? false;
 }
