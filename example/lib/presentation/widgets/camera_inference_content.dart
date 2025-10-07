@@ -1,4 +1,4 @@
-// Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+// Cellsay 🚀 AGPL-3.0 License - https://cellsay.com/license
 
 import 'package:flutter/material.dart';
 import 'package:ultralytics_yolo/yolo_streaming_config.dart';
@@ -6,7 +6,7 @@ import 'package:ultralytics_yolo/yolo_view.dart';
 import '../controllers/camera_inference_controller.dart';
 import 'model_loading_overlay.dart';
 
-/// Main content widget that handles the camera view and loading states
+/// Main content widget that handles the camera view and loading states.
 class CameraInferenceContent extends StatelessWidget {
   const CameraInferenceContent({super.key, required this.controller});
 
@@ -33,7 +33,10 @@ class CameraInferenceContent extends StatelessWidget {
       );
     } else {
       return const Center(
-        child: Text('No model loaded', style: TextStyle(color: Colors.white)),
+        child: Text(
+          'Cellsay model not loaded',
+          style: TextStyle(color: Colors.white),
+        ),
       );
     }
   }
