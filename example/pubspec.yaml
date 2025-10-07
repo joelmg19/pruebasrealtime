@@ -36,9 +36,9 @@ flutter:
     - assets/
     - assets/models/
     - assets/logo.png
-    - assets/applogo.png
+    - assets/app-logo.png
 
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/applogo.png"
+  image_path: "assets/app-logo.png"
