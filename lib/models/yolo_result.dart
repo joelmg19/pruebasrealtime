@@ -1,4 +1,4 @@
-// Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+// Cellsay 🚀 AGPL-3.0 License - https://cellsay.com/license
 
 // lib/yolo_result.dart
 
@@ -9,8 +9,9 @@ import '../utils/map_converter.dart';
 /// Represents a detection result from YOLO models.
 ///
 /// This class encapsulates all the information returned by YOLO models
-/// for a single detected object, including its location, classification,
-/// and task-specific data like segmentation masks or pose keypoints.
+/// for a single detected object, including its location and classification.
+/// Legacy fields for segmentation masks and pose keypoints are preserved for
+/// backward compatibility but are not populated in Cellsay detection builds.
 ///
 /// Example:
 /// ```dart
@@ -55,21 +56,18 @@ class YOLOResult {
   /// resolution-independent processing.
   final Rect normalizedBox;
 
-  /// The segmentation mask for instance segmentation tasks.
+  /// Legacy segmentation mask support (not populated in Cellsay builds).
   ///
-  /// Only available when using segmentation models (YOLOTask.segment).
   /// Each inner list represents a row of mask values.
   final List<List<double>>? mask;
 
-  /// The detected keypoints for pose estimation tasks.
+  /// Legacy pose keypoint support (not populated in Cellsay builds).
   ///
-  /// Only available when using pose models (YOLOTask.pose).
   /// Common keypoints include body joints like shoulders, elbows, knees, etc.
   final List<Point>? keypoints;
 
-  /// The confidence values for each detected keypoint.
+  /// Legacy keypoint confidence support (not populated in Cellsay builds).
   ///
-  /// Only available when using pose models (YOLOTask.pose).
   /// Each value corresponds to a keypoint in the [keypoints] list
   /// and ranges from 0.0 to 1.0.
   final List<double>? keypointConfidences;

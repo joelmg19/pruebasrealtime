@@ -1,11 +1,11 @@
-# Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+# Cellsay 🚀 AGPL-3.0 License - https://cellsay.com/license
 
 name: ultralytics_yolo
-description: Flutter plugin for Ultralytics YOLO computer vision models.
+description: Flutter plugin for Cellsay YOLO computer vision models.
 version: 0.1.37
-homepage: https://github.com/ultralytics/yolo-flutter-app
-repository: https://github.com/ultralytics/yolo-flutter-app
-issue_tracker: https://github.com/ultralytics/yolo-flutter-app/issues
+homepage: https://cellsay.com
+repository: https://github.com/cellsay/yolo-flutter-app
+issue_tracker: https://github.com/cellsay/yolo-flutter-app/issues
 example: example/example.dart
 
 topics:
@@ -16,7 +16,7 @@ topics:
   - flutter-plugin
 
 funding:
-  - https://github.com/sponsors/ultralytics
+  - https://cellsay.com/support
 
 environment:
   sdk: ^3.8.1

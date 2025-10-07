@@ -1,13 +1,9 @@
-// Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+// Cellsay 🚀 AGPL-3.0 License - https://cellsay.com/license
 
 import 'package:ultralytics_yolo/models/yolo_task.dart';
 
 enum ModelType {
-  detect('yolo11n', YOLOTask.detect),
-  segment('yolo11n-seg', YOLOTask.segment),
-  classify('yolo11n-cls', YOLOTask.classify),
-  pose('yolo11n-pose', YOLOTask.pose),
-  obb('yolo11n-obb', YOLOTask.obb);
+  detect('yolo11n', YOLOTask.detect);
 
   final String modelName;
 

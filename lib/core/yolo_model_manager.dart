@@ -1,4 +1,4 @@
-// Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+// Cellsay 🚀 AGPL-3.0 License - https://cellsay.com/license
 
 import 'package:flutter/services.dart';
 import 'package:ultralytics_yolo/models/yolo_task.dart';

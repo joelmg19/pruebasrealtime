@@ -1,4 +1,4 @@
-// Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+// Cellsay 🚀 AGPL-3.0 License - https://cellsay.com/license
 
 import 'dart:io';
 import 'package:archive/archive.dart';
@@ -13,13 +13,22 @@ import '../models/models.dart';
 ///
 /// This class handles:
 /// - Checking for existing models in the app bundle
-/// - Downloading models from the Ultralytics GitHub releases
+/// - Downloading models from the Cellsay distribution (configurable via `CELLSAY_MODEL_BASE_URL`)
 /// - Extracting and caching models locally
 /// - Platform-specific model path management
 class ModelManager {
-  /// Base URL for downloading model files from GitHub releases
-  static const String _modelDownloadBaseUrl =
+  /// Base URL for downloading model files from GitHub releases.
+  ///
+  /// The value can be overridden at build time using the `CELLSAY_MODEL_BASE_URL`
+  /// environment variable, allowing deployments to point at private mirrors
+  /// without modifying the code.
+  static const String _defaultModelDownloadBaseUrl =
       'https://github.com/ultralytics/yolo-flutter-app/releases/download/v0.0.0';
+
+  static String get _modelDownloadBaseUrl => const String.fromEnvironment(
+        'CELLSAY_MODEL_BASE_URL',
+        defaultValue: _defaultModelDownloadBaseUrl,
+      );
 
   static final MethodChannel _channel =
       ChannelConfig.createSingleImageChannel();
@@ -40,8 +49,8 @@ class ModelManager {
   Future<String?> getModelPath(ModelType modelType) async => Platform.isIOS
       ? _getIOSModelPath(modelType)
       : Platform.isAndroid
-      ? _getAndroidModelPath(modelType)
-      : null;
+          ? _getAndroidModelPath(modelType)
+          : null;
 
   /// Gets the iOS model path (.mlpackage format).
   Future<String?> _getIOSModelPath(ModelType modelType) async {
@@ -119,7 +128,7 @@ class ModelManager {
 
     // Download if not found
     _updateStatus('Downloading ${modelType.modelName} model...');
-    final bytes = await _downloadFile('$_modelDownloadBaseUrl/$bundledName');
+    final bytes = await _downloadFile('${_modelDownloadBaseUrl}/$bundledName');
     if (bytes != null && bytes.isNotEmpty) {
       await modelFile.writeAsBytes(bytes);
       return modelFile.path;
@@ -198,21 +207,20 @@ class ModelManager {
     }
   }
 
-  /// Helper method to download and extract model
-  Future<String?> _downloadAndExtract(
-    ModelType modelType,
-    Directory targetDir,
-    String ext,
-  ) async {
-    final bytes = await _downloadFile(
-      '$_modelDownloadBaseUrl/${modelType.modelName}$ext',
-    );
-    if (bytes == null) return null;
-    return ext.contains('zip')
-        ? await _extractZip(bytes, targetDir, modelType.modelName)
-        : (await File(targetDir.path).writeAsBytes(bytes), targetDir.path).$2;
+  void _updateStatus(String message) {
+    onStatusUpdate?.call(message);
   }
 
-  /// Updates the status message
-  void _updateStatus(String message) => onStatusUpdate?.call(message);
+  Future<String?> _downloadAndExtract(
+    ModelType modelType,
+    Directory modelDir,
+    String extension,
+  ) async {
+    final zipName = '${modelType.modelName}$extension';
+    final bytes = await _downloadFile('${_modelDownloadBaseUrl}/$zipName');
+    if (bytes == null || bytes.isEmpty) {
+      return null;
+    }
+    return _extractZip(bytes, modelDir, modelType.modelName);
+  }
 }

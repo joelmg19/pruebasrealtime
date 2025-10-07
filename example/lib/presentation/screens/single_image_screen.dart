@@ -1,4 +1,4 @@
-// Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+// Cellsay 🚀 AGPL-3.0 License - https://cellsay.com/license
 
 import 'dart:io';
 import 'dart:typed_data';
@@ -42,9 +42,9 @@ class _SingleImageScreenState extends State<SingleImageScreen> {
 
   /// Initializes the YOLO model for inference
   Future<void> _initializeYOLO() async {
-    _modelPath = await _modelManager.getModelPath(ModelType.segment);
+    _modelPath = await _modelManager.getModelPath(ModelType.detect);
     if (_modelPath == null) return;
-    _yolo = YOLO(modelPath: _modelPath!, task: YOLOTask.segment);
+    _yolo = YOLO(modelPath: _modelPath!, task: YOLOTask.detect);
     try {
       await _yolo.loadModel();
       if (mounted) setState(() => _isModelReady = true);
@@ -52,7 +52,7 @@ class _SingleImageScreenState extends State<SingleImageScreen> {
       if (mounted) {
         final error = YOLOErrorHandler.handleError(
           e,
-          'Failed to load model $_modelPath for task ${YOLOTask.segment.name}',
+          'Failed to load Cellsay model $_modelPath',
         );
         _showSnackBar('Error loading model: ${error.message}');
       }

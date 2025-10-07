@@ -1,4 +1,4 @@
-// Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
+// Cellsay 🚀 AGPL-3.0 License - https://cellsay.com/license
 
 import 'package:flutter/material.dart';
 import 'package:ultralytics_yolo/models/yolo_result.dart';
@@ -236,7 +236,7 @@ class CameraInferenceController extends ChangeNotifier {
 
       final error = YOLOErrorHandler.handleError(
         e,
-        'Failed to load model ${_selectedModel.modelName} for task ${_selectedModel.task.name}',
+        'Failed to load Cellsay model ${_selectedModel.modelName}',
       );
 
       _isModelLoading = false;
